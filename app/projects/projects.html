@@ -1,0 +1,44 @@
+<span><h1>Orders</h1></span>
+
+<form>
+    <div class="form-group">
+        <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Search Order Name" ng-model="searchProject">
+        </div>   
+    </div>
+</form>
+<table class="table table-bordered table-striped">
+    
+    <thead>
+      <tr>
+        <td>
+          <input type="checkbox" ng-model="markAll" ng-click="toggleCheckbox()">
+        </td>
+        <td>
+          <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+            Name
+            <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </td>
+        <td>
+          Actions
+        </td>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr ng-show="projects.length==0"><td colspan="3">No record</td></tr>
+      <tr ng-repeat="proj in projects | orderBy:sortType:sortReverse | filter:searchProject">
+        <td><input type="checkbox" ng-model="proj.isSelected" ng-change="checkSelected()"></td>
+        <td>{{ proj.name }}</td>
+        <td>
+            <button class="btn btn-primary" ng-click="showModal('Order - Edit', proj.name, proj.id)">edit</button>
+        </td>
+      </tr>
+    </tbody>    
+  </table> 
+  
+  <button class="btn btn-success" ng-click="showModal('Order Create', '')">Add Order <span class="fa fa-plus-circle"></span></button>
+  <button class="btn btn-danger" ng-click="removeSelected()">Remove <span class="fa fa-remove"></span></button>
